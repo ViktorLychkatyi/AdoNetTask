@@ -11,10 +11,12 @@ namespace AdoNetTask
     {
         static void Main()
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            string connectionString = "Server=localhost; Database=BaseStore; Integrated Security=True; TrustServerCertificate=True;";
-            string query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'";
-            var productTable = new DataTable();
+            IConfiguration config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
+            string connectionString = config.GetConnectionString("DefaultConnection");
             ShowMenu(connectionString);
 
             //using (var connection = new SqlConnection(connectionString))
